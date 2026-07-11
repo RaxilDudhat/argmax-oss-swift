@@ -955,19 +955,36 @@ public extension AudioProcessor {
     func setupAudioSessionForDevice() throws {
         #if !os(macOS) // AVAudioSession is not available on macOS
 
-        #if !os(watchOS) // watchOS does not support .defaultToSpeaker
-        let options: AVAudioSession.CategoryOptions = [.defaultToSpeaker, .allowBluetooth]
-        #else
-        let options: AVAudioSession.CategoryOptions = .mixWithOthers
-        #endif
-
+//        #if !os(watchOS) // watchOS does not support .defaultToSpeaker
+//        let options: AVAudioSession.CategoryOptions = [.defaultToSpeaker, .allowBluetooth]
+//        #else
+//        let options: AVAudioSession.CategoryOptions = .mixWithOthers
+//        #endif
+//
+//        let audioSession = AVAudioSession.sharedInstance()
+//        do {
+//            try audioSession.setCategory(.playAndRecord, options: options)
+//            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+//        } catch let error as NSError {
+//            throw WhisperError.audioProcessingFailed("Failed to set up audio session: \(error)")
+//        }
         let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(.playAndRecord, options: options)
-            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-        } catch let error as NSError {
-            throw WhisperError.audioProcessingFailed("Failed to set up audio session: \(error)")
-        }
+                do {
+                    #if os(tvOS)
+                    // tvOS has no built-in microphone; use ambient (playback-only) session
+                    try audioSession.setCategory(.ambient)
+                    #elseif os(watchOS)
+                    // watchOS does not support .defaultToSpeaker
+                    let options: AVAudioSession.CategoryOptions = .mixWithOthers
+                    try audioSession.setCategory(.playAndRecord, options: options)
+                    #else
+                    let options: AVAudioSession.CategoryOptions = [.defaultToSpeaker, .allowBluetooth]
+                    try audioSession.setCategory(.playAndRecord, options: options)
+                    #endif
+                    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+                } catch let error as NSError {
+                    throw WhisperError.audioProcessingFailed("Failed to set up audio session: \(error)")
+                }
         #endif
     }
 
