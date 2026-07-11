@@ -255,14 +255,14 @@ open class Qwen3GenerateTask: @unchecked Sendable, SpeechGenerating {
         if usedCache, let prefixCache {
             cdCache.restore(from: prefixCache.kvSnapshot)
             if let stateData = prefixCache.stateData {
-                if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = cdState as? MLState {
+                if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = cdState as? MLState {
                     mlState.restore(from: stateData)
                 }
             }
             totalPrefillTokens = prefixCache.prefixLength + 1
 
             // TODO: Remove forking logic with package with min os version upgrade
-            if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *), !options.forceLegacyEmbedPath {
+            if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *), !options.forceLegacyEmbedPath {
                 lastCdOutput = try await codeDecoder.decode(
                     inputEmbeds: tokenizeResult.variableEmbed.asMLTensor(), cache: cdCache, state: cdState
                 )
@@ -281,7 +281,7 @@ open class Qwen3GenerateTask: @unchecked Sendable, SpeechGenerating {
             totalPrefillTokens = combinedEmbeds.count
 
             // TODO: Remove forking logic with package with min os version upgrade
-            if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *), !options.forceLegacyEmbedPath {
+            if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *), !options.forceLegacyEmbedPath {
                 for embed in combinedEmbeds {
                     lastCdOutput = try await codeDecoder.decode(inputEmbeds: embed.asMLTensor(), cache: cdCache, state: cdState)
                 }
@@ -380,7 +380,7 @@ open class Qwen3GenerateTask: @unchecked Sendable, SpeechGenerating {
         defer { writer.cancelPendingDecode() }
 
         // TODO: Remove forking logic with package with min os version upgrade
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *), !options.forceLegacyEmbedPath {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *), !options.forceLegacyEmbedPath {
             let textPadEmbedTensor: MLTensor = try await textProjector.project(tokenId: Qwen3TTSConstants.textPAD)
 
             while code0 != Qwen3TTSConstants.codecEOS
@@ -693,7 +693,7 @@ open class Qwen3GenerateTask: @unchecked Sendable, SpeechGenerating {
         // one-time cost: it absorbs the ~150ms without affecting TTFB, and the
         // warmed pipeline persists for all subsequent generation calls.
         let mcdWarmupTask: Task<Void, Never>?
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             let mcd = multiCodeDecoder
             mcdWarmupTask = Task { try? await mcd.prewarmInference() }
         } else {
@@ -708,7 +708,7 @@ open class Qwen3GenerateTask: @unchecked Sendable, SpeechGenerating {
         )
 
         var lastCdOutput: CodeDecoderOutput?
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             // Async path: decoder updates cache internally
             for embed in invariantEmbeds {
                 lastCdOutput = try await codeDecoder.decode(inputEmbeds: embed.asMLTensor(), cache: cdCache, state: cdState)
@@ -729,7 +729,7 @@ open class Qwen3GenerateTask: @unchecked Sendable, SpeechGenerating {
 
         // Snapshot MLState for stateful models
         var stateData: KVStateData?
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = cdState as? MLState {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = cdState as? MLState {
             stateData = mlState.snapshot()
         }
 

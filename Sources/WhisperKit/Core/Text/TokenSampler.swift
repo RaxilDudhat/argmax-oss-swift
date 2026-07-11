@@ -219,7 +219,7 @@ open class GreedyTokenSampler: TokenSampling {
 
         var result: (token: Int, logprob: Float)
         #if canImport(CoreML.MLState)
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             result = await sampleWithMLTensor(logits: logits)
         } else {
             result = sampleWithBNNS(logits: logits)

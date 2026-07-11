@@ -12,7 +12,7 @@ public extension MLModel {
         from input: MLFeatureProvider,
         options: MLPredictionOptions = MLPredictionOptions()
     ) async throws -> MLFeatureProvider {
-        if #available(macOS 14, iOS 17, watchOS 10, visionOS 1, *) {
+        if #available(macOS 14, iOS 17, tvOS 17, watchOS 10, visionOS 1, *) {
             return try await prediction(from: input, options: options)
         } else {
             return try await Task {

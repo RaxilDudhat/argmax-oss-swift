@@ -59,7 +59,7 @@ public class GreedyTokenSampler: TokenSampling, @unchecked Sendable {
         repetitionPenalty: Float,
         suppressTokenIds: Set<Int>
     ) async -> Int32 {
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             let tensor: MLTensor
             let vocabSize: Int
             if let logitsTensor = logits as? MLTensor {
@@ -101,7 +101,7 @@ public class GreedyTokenSampler: TokenSampling, @unchecked Sendable {
         temperature: Float,
         topK: Int
     ) async -> Int32 {
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *),
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *),
             let tensor = allLogits as? MLTensor
         {
             // Extract a single head lazily via gathering - the full [1, 15, vocabSize] tensor
@@ -129,7 +129,7 @@ public class GreedyTokenSampler: TokenSampling, @unchecked Sendable {
             }
         }
 
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             return await sampleFromLogitsWithMLTensor(logitsF, temperature: temperature, topK: topK)
         }
         return sampleFromLogits(logitsF, temperature: temperature, topK: topK)

@@ -57,7 +57,7 @@ public class Qwen3SpeechDecoder: SpeechDecoding, @unchecked Sendable {
         modelConfig.computeUnits = computeUnits
         // Multifunction `functionName` selection is iOS 18+ / macOS 15+. The asset
         // itself requires the same minimum, so callers on older OS cannot load it.
-        guard #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) else {
+        guard #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) else {
             throw TTSError.modelLoadingFailed(
                 "SpeechDecoder requires macOS 15 / iOS 18 (multifunction CoreML model)"
             )
@@ -146,7 +146,7 @@ public class Qwen3SpeechDecoder: SpeechDecoding, @unchecked Sendable {
 
         var timings = SpeechTimings()
 
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             // Flatten codes into [1, 16, codesPerStep] with codes[frameIndex][codebookIndex]
             // at position (codebookIndex * codesPerStep + frameIndex) because the natural
             // layout for that shape is (..., codebookIndex, frameIndex) — the last axis

@@ -77,7 +77,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
 
     public var isStateful: Bool {
         guard let model else { return false }
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             return !model.modelDescription.stateDescriptionsByName.isEmpty
         }
         return false
@@ -87,7 +87,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
     /// Returns nil for non-stateful models. The caller owns the returned state.
     public func makeState() -> Any? {
         guard isStateful, let model else { return nil }
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             return model.makeState()
         }
         return nil
@@ -146,7 +146,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
         let input = try MLDictionaryFeatureProvider(dictionary: dict)
 
         let output: MLFeatureProvider
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = state as? MLState {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = state as? MLState {
             output = try await model.asyncPrediction(from: input, using: mlState)
         } else {
             output = try await model.asyncPrediction(from: input)
@@ -158,7 +158,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
             throw TTSError.generationFailed("MultiCodeDecoder: missing key/value cache update arrays")
         }
 
-        if #available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = state as? MLState, isStateful {
+        if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *), let mlState = state as? MLState, isStateful {
             KVCache.updateStateCache(
                 state: mlState,
                 keyCacheUpdates: keyCacheUpdates,
