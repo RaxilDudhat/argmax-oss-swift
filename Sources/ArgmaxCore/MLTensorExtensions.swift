@@ -6,7 +6,7 @@ import CoreML
 // MARK: - MLTensor Conversions
 
 #if canImport(CoreML.MLState)
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public extension MLTensor {
 
     // MARK: Async (safe for cooperative thread pool)

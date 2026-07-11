@@ -23,7 +23,7 @@ public extension MLModel {
 
     /// Async prediction with MLState for stateful models.
     /// MLState requires macOS 15+ where native async prediction is available.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     func asyncPrediction(
         from input: MLFeatureProvider,
         using state: MLState,
