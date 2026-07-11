@@ -163,7 +163,7 @@ public class GreedyTokenSampler: TokenSampling, @unchecked Sendable {
     /// MLTensor-based codec-0 sampler (macOS 15+).
     /// `logitsTensor` arrives directly from the model output - no MLMultiArray conversion needed.
     /// Uses `MLTensor.topK()` - O(n) partial selection - instead of vDSP_vsort's O(n log n) full sort.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     private func sampleCodec0WithMLTensor(
         logitsTensor: MLTensor,
         vocabSize: Int,
@@ -207,7 +207,7 @@ public class GreedyTokenSampler: TokenSampling, @unchecked Sendable {
     /// Extract a single head from the multi-code logit tensor and sample from it (macOS 15+).
     /// The full [1, numHeads, vocabSize] tensor stays on device; `gathering` selects the head
     /// lazily so that only the top-k results (~400 B) need to be downloaded to CPU.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     private func sampleMultiHeadFromTensor(
         _ allLogits: MLTensor,
         headIndex: Int,
@@ -228,7 +228,7 @@ public class GreedyTokenSampler: TokenSampling, @unchecked Sendable {
     }
 
     /// Shared topK multinomial sampler over an already-softmaxed probability MLTensor.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     private func sampleFromProbs(_ probs: MLTensor, vocabSize: Int, topK: Int) async -> Int32 {
         if topK > 0 && topK < vocabSize {
             // Partial selection: O(n) vs O(n log n) full sort
@@ -256,7 +256,7 @@ public class GreedyTokenSampler: TokenSampling, @unchecked Sendable {
     }
 
     /// MLTensor sampling from a pre-extracted Float32 logits array (macOS 15+).
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     private func sampleFromLogitsWithMLTensor(_ logits: [Float], temperature: Float, topK: Int) async -> Int32 {
         let vocabSize = logits.count
 

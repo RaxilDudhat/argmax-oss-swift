@@ -27,7 +27,7 @@ public protocol CodeEmbedding: MLModelLoading {
 public protocol MultiCodeEmbedding: MLModelLoading {
     var model: MLModel? { get }
     func embed(tokenId: Int32) async throws -> [FloatType]
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     func embed(tokenId: Int32) async throws -> MLTensor
 }
 

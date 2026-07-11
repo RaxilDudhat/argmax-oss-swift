@@ -37,7 +37,7 @@ public class Qwen3TextProjector: TextProjecting, @unchecked Sendable {
     }
 
     /// Optimised async path: passes `[String: MLTensor]` directly - no FeatureProvider boxing.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public func project(tokenId: Int32) async throws -> MLTensor {
         guard let model else { throw TTSError.generationFailed("TextProjector model not loaded") }
         let outputs = try await model.prediction(from: [

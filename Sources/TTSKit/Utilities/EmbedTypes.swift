@@ -19,10 +19,10 @@ public protocol EmbedInputType {}
 extension MLMultiArray: EmbedTensorType {}
 extension MLMultiArray: EmbedInputType {}
 
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension MLTensor: EmbedTensorType {}
 
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension MLTensor: EmbedInputType {}
 
 extension Array: EmbedTensorType where Element == FloatType {}
@@ -148,12 +148,12 @@ public enum EmbedUtilities {
     // MARK: - MLTensor helpers
 
     /// Element-wise addition of two MLTensor embeddings. No data copy - deferred until materialised.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     @inline(__always)
     public static func addEmbeddings(_ a: MLTensor, _ b: MLTensor) -> MLTensor { a + b }
 
     /// Sum a list of MLTensor embeddings element-wise.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public static func sumEmbeddings(_ tensors: [MLTensor]) -> MLTensor {
         tensors.dropFirst().reduce(tensors[0], +)
     }
@@ -176,7 +176,7 @@ public enum EmbedUtilities {
 
 // MARK: - Array<FloatType> convenience
 
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public extension Array where Element == FloatType {
     /// Wrap this embedding vector as a `[1, count, 1, 1]` Float16 MLTensor (one memcpy).
     func asMLTensor() -> MLTensor {

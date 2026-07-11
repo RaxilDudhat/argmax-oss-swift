@@ -508,7 +508,7 @@ public struct MultiCodeGenerationResult {
     public let offsetCodeEmbeds: [[FloatType]]
     /// MLTensor variant of offsetCodeEmbeds - populated by the async tensor path,
     /// avoiding the [FloatType] -> MLTensor round-trip.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public var offsetCodeEmbedTensors: [MLTensor]? { _offsetCodeEmbedTensors as? [MLTensor] }
 
     let _offsetCodeEmbedTensors: Any?
@@ -520,7 +520,7 @@ public struct MultiCodeGenerationResult {
         self._offsetCodeEmbedTensors = nil
     }
 
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public init(codes: [Int32], timings: SpeechTimings, offsetCodeEmbedTensors: [MLTensor]) {
         self.codes = codes
         self.timings = timings

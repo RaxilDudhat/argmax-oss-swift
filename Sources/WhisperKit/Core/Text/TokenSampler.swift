@@ -38,7 +38,7 @@ open class GreedyTokenSampler: TokenSampling {
     }
 
     #if canImport(CoreML.MLState)
-    @available(macOS 15, iOS 18, watchOS 11, visionOS 2, *)
+    @available(macOS 15, iOS 18, tvOS 18, watchOS 11, visionOS 2, *)
     private func sampleWithMLTensor(logits: MLMultiArray) async -> (token: Int, logprob: Float) {
         // Use MLTensor operations if available for sampling
         // Reference: https://github.com/huggingface/swift-transformers/blob/preview/Sources/Generation/Decoders.swift

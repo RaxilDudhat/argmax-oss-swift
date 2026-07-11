@@ -82,7 +82,7 @@ public class Qwen3CodeDecoder: CodeDecoding, @unchecked Sendable {
     }
 
     /// MLTensor path: passes `[String: MLTensor]` directly - no FeatureProvider boxing.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     private func decodeWithTensor(_ inputEmbeds: MLTensor, model: MLModel, cache: KVCache, state: Any?) async throws -> CodeDecoderOutput {
         var inputs: [String: MLTensor] = [
             "input_embeds": inputEmbeds,

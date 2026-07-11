@@ -8,14 +8,14 @@ import Foundation
 // MARK: - Supporting Types
 
 /// Update and padding masks for a single MLTensor decode step.
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 struct MLTensorMasks {
     let updateMask: MLTensor
     let paddingMask: MLTensor
 }
 
 /// Result of a single MLTensor prediction step, including the updated KV cache.
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 struct MLTensorStepResult {
     let outputs: [String: MLTensor]
     let keyCache: MLTensor
@@ -100,7 +100,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
     /// Run concurrently with CodeDecoder prefill so there is no net TTFB cost.
     /// Replicates the exact loop pattern used in `generateMultiCodes` (4 passes
     /// × 16 predictions each) to match what the ANE needs to pipeline.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public func prewarmInference() async throws {
         guard let model else { return }
         let sequenceLength = kvCacheMaxSequenceLength
@@ -181,7 +181,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
     /// No MLMultiArray round-trip: prediction takes/returns MLTensor, cache updates
     /// are lazy tensor ops, and only the logits are materialized (by the sampler).
     /// Build the update mask and padding mask tensors for a given cache position.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     func buildMasks(position: Int, sequenceLength: Int) -> MLTensorMasks {
         var updateData = [FloatType](repeating: 0, count: sequenceLength)
         var paddingData = [FloatType](repeating: -10000, count: sequenceLength)
@@ -200,7 +200,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
     /// Cache updates are performed in tensor space via element-wise masking -
     /// no MLMultiArray round-trip occurs. The model must be compiled for
     /// single-token `[1, embedDim, 1, 1]` input.
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     func predictMLTensorStep(
         inputEmbeds: MLTensor,
         model: MLModel,
@@ -245,7 +245,7 @@ public class Qwen3MultiCodeDecoder: MultiCodeDecoding, @unchecked Sendable {
         )
     }
 
-    @available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public func generateMultiCodes(
         hiddenStatesTensor: MLTensor,
         code0EmbedTensor: MLTensor,

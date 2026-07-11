@@ -223,7 +223,7 @@ public class KVCache: @unchecked Sendable {
 
 // MARK: - MLTensor Access
 
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public extension KVCache {
     /// Cache position as a `[1]` Int32 tensor.
     var cacheLengthTensor: MLTensor { MLTensor(shape: [1], scalars: [Int32(cacheLength)]) }
@@ -426,7 +426,7 @@ public class SpeechDecoderCache: KVCache, @unchecked Sendable {
 
 // MARK: - Speech Decoder Cache MLTensor Access
 
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public extension SpeechDecoderCache {
     var hiddenContextTensor: MLTensor { MLTensor(MLShapedArray<FloatType>(hiddenContext)) }
     var qkMaskTensor: MLTensor? { qkMask.map { MLTensor(MLShapedArray<FloatType>($0)) } }
@@ -452,7 +452,7 @@ public extension SpeechDecoderCache {
 
 // MARK: - Stateful Model Cache Update
 
-@available(macOS 15.0, iOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public extension KVCache {
     /// Write key/value cache updates into an MLState's internal buffers.
     ///
